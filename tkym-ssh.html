@@ -2,99 +2,190 @@
 <!-- Developed by Itsuru Nomaki -->
 
 <html>
+
 <head>
-<meta charset="utf-8" />
-	<style>
-		body {
-			background: #000;
-		}
+    <title>Number game for SSH Researching activity</title>
 
-		.number {
-			background: #000;
-			color: #fff;
-			font-size: 36px;
-			font-family: Arial;
-			border-color: #000;
-			width: 28px;
-			height: 40px;
-		}
-	</style>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/bootstrap.css">
+
+    <style>
+        body {
+            background: #000;
+        }
+
+        .number {
+            background: #000;
+            color: #fff;
+            font-size: 36px;
+            font-family: Arial;
+            border-color: #000;
+            width: 28px;
+            height: 40px;
+            display: inline-block;
+        }
+
+        .numberArea {
+            overflow-x: auto;
+            overflow-y: hidden;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .countLabel {
+            background: #000;
+            color: #fff;
+            font-size: 36px;
+            font-family: Arial;
+        }
+
+    </style>
 </head>
+
 <body>
-	<span id="countLabel" class="number">0回目</span>
-	<p style="color: #fff">私のSSH研究にご協力いただき、ありがとうございます。</p>
-	<button onclick="createNumber();" type="button">スタート</button>
-	<div id="numberArea"></div>
+    <div class="mt-5"></div>
+    <div class="container">
 
-<script type="text/javascript">
-	var width = 20;
-	var height = 6;
-	var count = 0;
+        <div class="row">
+            <div class="col-lg-8">
+                <span id="countLabel" class="countLabel">0回目</span>
+                <p class="text-white">私のSSH研究にご協力いただき、ありがとうございます。</p>
+            </div>
 
-	var started = false;
-	var startedTime;
+            <div class="col-lg-4" id="resultArea">
+                <span id="resultLabel" class="countLabel"></span>
+                <span id="beforeResult" class="text-white"></span>
+            </div>
+        </div>
 
-	var sum = 0;
+        <div class="row">
+            <div class="col-lg-4">
+                <button class="btn btn-lg btn-block btn-success" onclick="createNumber();" type="button">スタート</button>
+            </div>
+            <div class="col-lg-4">
+                <button class="btn btn-lg btn-block btn-danger" onclick="init();" type="button">はじめから</button>
+            </div>
+            <div class="col-lg-4">
+                <button class="btn btn-lg btn-block btn-warning" onclick="location.reload();" type="button">再読み込み</button>
+            </div>
+        </div>
 
-	function createNumber() {
-		if (started) return;
-		started = true;
+        <div class="row">
+            <div class="col-lg-12 numberArea" id="numberArea"></div>
+        </div>
+    </div>
 
-		count++;
-		
-		var countLabel = document.getElementById("countLabel");
-		countLabel.innerHTML = "<p>" + count + "回目</p>";
-		
-		var numberArea = document.getElementById("numberArea");
-		var x = Math.floor(Math.random() * (width - 1));
-		var y = Math.floor(Math.random() * (height - 1));
 
-		for (var i = 0;i < height;i++) {
-			for (var j = 0;j < width;j++) {
-				if (x == j && y == i) numberArea.insertAdjacentHTML("beforeend", "<button id='correctButton' class='number' onclick='onCorrectButtonClick();'>8</button>");
-				else numberArea.insertAdjacentHTML("beforeend", "<button id='incorrectButton' class='number' onclick='onInCorrectButtonClick();'>9</button>");
-			}
-			numberArea.insertAdjacentHTML("beforeend", "<br>");
-		}
+    <script type="text/javascript">
+        var width = 20;
+        var height = 6;
+        var count = 0;
+        var started = false;
+        var startedTime;
+        var sum = 0;
 
-		startedTime = Date.now();
-	}
+        function createNumber() {
+            if (started) return;
+            started = true;
+            count++;
 
-	function onCorrectButtonClick() {
-		var time = (Date.now() - startedTime) / 1000;
+            setCountLabel(count);
 
-		sum = sum + time;
+            var numberArea = document.getElementById("numberArea");
+            var x = Math.floor(Math.random() * (width - 1));
+            var y = Math.floor(Math.random() * (height - 1));
+            for (var i = 0; i < height; i++) {
+                for (var j = 0; j < width; j++) {
+                    if (x == j && y == i) numberArea.insertAdjacentHTML("beforeend", "<button id='correctButton' class='number mx-auto' onclick='onCorrectButtonClick();'>8</button>");
+                    else numberArea.insertAdjacentHTML("beforeend", "<button id='incorrectButton' class='number mx-auto' onclick='onInCorrectButtonClick();'>9</button>");
+                }
+                numberArea.insertAdjacentHTML("beforeend", "<br>");
+            }
+            startedTime = Date.now();
+        }
 
-		alert("正解！次の問題に進みます。\nかかった時間：" + time + "秒");
-		clear();
+        function onCorrectButtonClick() {
+            var time = (Date.now() - startedTime) / 1000;
+            sum = sum + time;
+            alert("正解！次の問題に進みます。\nかかった時間：" + time + "秒");
+            clear();
 
-		if (count == 5) {
-			finish();
-			return;
-		}
-	
-		started = false;
-		width = width + 5;
-		height = height + 2;
-		createNumber();
-	}
+            if (count == 5) {
+                finish();
+                return;
+            }
 
-	function onInCorrectButtonClick() {
-		alert("不正解！");		
-	}
+            started = false;
+            width = width + 5;
+            height = height + 2;
 
-	function clear() {
-		var numberArea = document.getElementById("numberArea");
-		while(numberArea.firstChild) numberArea.removeChild(numberArea.firstChild);
-	}
+            createNumber();
+        }
 
-	function finish() {
-		alert("これで終了です。ご協力ありがとうございました。");
-		var numberArea = document.getElementById("numberArea");
-		numberArea.insertAdjacentHTML("beforeend", "<p style='color: #fff'>合計時間：" + sum + "秒<br>再チャレンジするには再読み込みをしてください。</p>");	
-	}
-	
-</script>
+        function onInCorrectButtonClick() {
+            alert("不正解！");
+        }
+
+        function clear() {
+            var numberArea = document.getElementById("numberArea");
+            while (numberArea.firstChild) numberArea.removeChild(numberArea.firstChild);
+        }
+
+        function finish() {
+            alert("これで終了です。ご協力ありがとうございました。");
+
+            setResultLabel(sum);
+
+            document.cookie = "before_result=" + sum + "; expires=" + new Date("2030/1/1 18:00").toUTCString();
+        }
+
+        function setCountLabel(c) {
+            var countLabel = document.getElementById("countLabel");
+            countLabel.innerHTML = "<p>" + c + "回目</p>";
+        }
+
+        function setBeforeResult(c) {
+            var beforeResultLabel = document.getElementById("beforeResult");
+            beforeResultLabel.innerHTML = "<p>前回の記録: " + c + "秒</p>";
+        }
+
+        function setResultLabel(c) {
+            var resultLabel = document.getElementById("resultLabel");
+            resultLabel.innerHTML = "<p>合計時間：" + (Math.round(sum * 100) / 100) + "秒</p>";
+        }
+
+        function init() {
+            clear();
+
+            var result = document.cookie.indexOf("before_result");
+            if (result !== -1) {
+                var cookies = document.cookie.split(";");
+                cookies.forEach(function(value) {
+                    var content = value.split("=")
+                    if (content[0].indexOf("before_result") !== -1) {
+                        setBeforeResult(content[1]);
+                    }
+                });
+            }
+
+            setCountLabel(0);
+            setResultLabel(0);
+
+            width = 20;
+            height = 6;
+            count = 0;
+            started = false;
+            startedTime = 0;
+            sum = 0;
+        }
+
+        window.onload = init();
+
+    </script>
+
+    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
 
 </body>
+
 </html>
