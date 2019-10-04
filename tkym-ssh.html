@@ -3,6 +3,7 @@
 
 <html>
 <head>
+<meta charset="utf-8" />
 	<style>
 		body {
 			background: #000;
@@ -20,9 +21,9 @@
 	</style>
 </head>
 <body>
-	<span id="countLabel" class="number">0‰ñ–Ú</span>
-	<p style="color: #fff">„‚ÌSSHŒ¤‹†‚É‚²‹¦—Í‚¢‚½‚¾‚«A‚ ‚è‚ª‚Æ‚¤‚²‚´‚¢‚Ü‚·B</p>
-	<button onclick="createNumber();" type="button">ƒXƒ^[ƒg</button>
+	<span id="countLabel" class="number">0å›ç›®</span>
+	<p style="color: #fff">ç§ã®SSHç ”ç©¶ã«ã”å”åŠ›ã„ãŸã ãã€ã‚ã‚ŠãŒã¨ã†ã”ã–ã„ã¾ã™ã€‚</p>
+	<button onclick="createNumber();" type="button">ã‚¹ã‚¿ãƒ¼ãƒˆ</button>
 	<div id="numberArea"></div>
 
 <script type="text/javascript">
@@ -42,7 +43,7 @@
 		count++;
 		
 		var countLabel = document.getElementById("countLabel");
-		countLabel.innerHTML = "<p>" + count + "‰ñ–Ú</p>";
+		countLabel.innerHTML = "<p>" + count + "å›ç›®</p>";
 		
 		var numberArea = document.getElementById("numberArea");
 		var x = Math.floor(Math.random() * (width - 1));
@@ -64,7 +65,7 @@
 
 		sum = sum + time;
 
-		alert("³‰ğIŸ‚Ì–â‘è‚Éi‚İ‚Ü‚·B\n‚©‚©‚Á‚½ŠÔF" + time + "•b");
+		alert("æ­£è§£ï¼æ¬¡ã®å•é¡Œã«é€²ã¿ã¾ã™ã€‚\nã‹ã‹ã£ãŸæ™‚é–“ï¼š" + time + "ç§’");
 		clear();
 
 		if (count == 5) {
@@ -79,7 +80,7 @@
 	}
 
 	function onInCorrectButtonClick() {
-		alert("•s³‰ğI");		
+		alert("ä¸æ­£è§£ï¼");		
 	}
 
 	function clear() {
@@ -88,9 +89,9 @@
 	}
 
 	function finish() {
-		alert("‚±‚ê‚ÅI—¹‚Å‚·B‚²‹¦—Í‚ ‚è‚ª‚Æ‚¤‚²‚´‚¢‚Ü‚µ‚½B");
+		alert("ã“ã‚Œã§çµ‚äº†ã§ã™ã€‚ã”å”åŠ›ã‚ã‚ŠãŒã¨ã†ã”ã–ã„ã¾ã—ãŸã€‚");
 		var numberArea = document.getElementById("numberArea");
-		numberArea.insertAdjacentHTML("beforeend", "<p style='color: #fff'>‡ŒvŠÔF" + sum + "•b<br>Äƒ`ƒƒƒŒƒ“ƒW‚·‚é‚É‚ÍÄ“Ç‚İ‚İ‚ğ‚µ‚Ä‚­‚¾‚³‚¢B</p>");	
+		numberArea.insertAdjacentHTML("beforeend", "<p style='color: #fff'>åˆè¨ˆæ™‚é–“ï¼š" + sum + "ç§’<br>å†ãƒãƒ£ãƒ¬ãƒ³ã‚¸ã™ã‚‹ã«ã¯å†èª­ã¿è¾¼ã¿ã‚’ã—ã¦ãã ã•ã„ã€‚</p>");	
 	}
 	
 </script>
