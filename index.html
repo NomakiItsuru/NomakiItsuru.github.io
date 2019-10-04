@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!-- Developed by Itsuru Nomaki -->
+
+<html>
+<head>
+	<style>
+		body {
+			background: #000;
+		}
+
+		.number {
+			background: #000;
+			color: #fff;
+			font-size: 36px;
+			font-family: Arial;
+			border-color: #000;
+			width: 28px;
+			height: 40px;
+		}
+	</style>
+</head>
+<body>
+	<span id="countLabel" class="number">0回目</span>
+	<p style="color: #fff">私のSSH研究にご協力いただき、ありがとうございます。</p>
+	<button onclick="createNumber();" type="button">スタート</button>
+	<div id="numberArea"></div>
+
+<script type="text/javascript">
+	var width = 20;
+	var height = 6;
+	var count = 0;
+
+	var started = false;
+	var startedTime;
+
+	var sum = 0;
+
+	function createNumber() {
+		if (started) return;
+		started = true;
+
+		count++;
+		
+		var countLabel = document.getElementById("countLabel");
+		countLabel.innerHTML = "<p>" + count + "回目</p>";
+		
+		var numberArea = document.getElementById("numberArea");
+		var x = Math.floor(Math.random() * (width - 1));
+		var y = Math.floor(Math.random() * (height - 1));
+
+		for (var i = 0;i < height;i++) {
+			for (var j = 0;j < width;j++) {
+				if (x == j && y == i) numberArea.insertAdjacentHTML("beforeend", "<button id='correctButton' class='number' onclick='onCorrectButtonClick();'>8</button>");
+				else numberArea.insertAdjacentHTML("beforeend", "<button id='incorrectButton' class='number' onclick='onInCorrectButtonClick();'>9</button>");
+			}
+			numberArea.insertAdjacentHTML("beforeend", "<br>");
+		}
+
+		startedTime = Date.now();
+	}
+
+	function onCorrectButtonClick() {
+		var time = (Date.now() - startedTime) / 1000;
+
+		sum = sum + time;
+
+		alert("正解！次の問題に進みます。\nかかった時間：" + time + "秒");
+		clear();
+
+		if (count == 5) {
+			finish();
+			return;
+		}
+	
+		started = false;
+		width = width + 5;
+		height = height + 2;
+		createNumber();
+	}
+
+	function onInCorrectButtonClick() {
+		alert("不正解！");		
+	}
+
+	function clear() {
+		var numberArea = document.getElementById("numberArea");
+		while(numberArea.firstChild) numberArea.removeChild(numberArea.firstChild);
+	}
+
+	function finish() {
+		alert("これで終了です。ご協力ありがとうございました。");
+		var numberArea = document.getElementById("numberArea");
+		numberArea.insertAdjacentHTML("beforeend", "<p style='color: #fff'>合計時間：" + sum + "秒<br>再チャレンジするには再読み込みをしてください。</p>");	
+	}
+	
+</script>
+
+</body>
+</html>
